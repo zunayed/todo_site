@@ -1,0 +1,6 @@
+*.pyc
+*.db
+*.coverage
+
+# coverage reports
+htmlcov/
