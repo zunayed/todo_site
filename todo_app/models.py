@@ -7,3 +7,10 @@ class Todo(models.Model):
 
     def __unicode__(self):
         return "Task: %s" % self.task
+
+    @property
+    def dict(self):
+        dictionary = {}
+        for field in self._meta.get_all_field_names():
+            dictionary[field] = self.__getattribute__(field)
+        return dictionary
