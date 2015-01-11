@@ -72,18 +72,52 @@ class ViewTests(TestCase):
         response = self.client.get(end_point)
         self.assertEqual(response.status_code, 404)
 
+    def test_create_one_todo(self):
+        """
+        POST /todos
+        """
+        end_point = reverse('api_v1:todos')
+        post_data = {
+            'task': 'new test post',
+            'complete': 'True',
+        }
+        # import ipdb; ipdb.set_trace()
+
+        response = self.client.post(
+            end_point,
+            post_data
+        )
+
+        new_post = Todo.objects.get(task='new test post')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(new_post.task, post_data['task'])
+        self.assertEqual(new_post.complete, bool(post_data['complete']))
+
+        # test with bad post data
+        bad_post_data = {
+            'task': 'new test post',
+        }
+
+        response = self.client.post(
+            end_point,
+            bad_post_data
+        )
+
+        self.assertEqual(response.status_code, 400)
+
     def test_update_todo(self):
         """
         PUT /todo/<id>
         """
         end_point = reverse('api_v1:get_todo', kwargs={'id': '1'})
         put_data = {
-            "task": "test changes",
-            "complete": "True",
+            'task': 'test changes',
+            'complete': 'True',
         }
         response = self.client.put(
             end_point,
-            put_data
+            json.dumps(put_data)
         )
         updated_object = Todo.objects.get(id=1)
 
@@ -93,11 +127,11 @@ class ViewTests(TestCase):
 
         # put request with bad data
         bad_put_data = {
-            "task": "test changes",
+            'task': 'test changes',
         }
         response = self.client.put(
             end_point,
-            bad_put_data
+            json.dumps(bad_put_data)
         )
 
         self.assertEqual(response.status_code, 400)
