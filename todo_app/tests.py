@@ -1,4 +1,7 @@
+import json
+
 from django.test import TestCase
+from django.core.urlresolvers import reverse
 
 from models import Todo
 
@@ -36,10 +39,21 @@ class ModelTests(TestCase):
 class ViewTests(TestCase):
 
     def setUp(self):
-        pass
+        self.test_data = TodoTestData()
 
     def test_get_all_todos(self):
-        pass
+        """
+        GET /todo
+        """
+        end_point = reverse('api_v1:todos')
+        response = self.client.get(end_point)
+        data = json.loads(response.content)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(data), 3)
+        self.assertEqual(data[0]['task'], self.test_data.todo_list[0])
+        self.assertEqual(data[0]['complete'], False)
+        self.assertEqual(data[2]['task'], self.test_data.todo_list[2])
 
     def test_get_one_todo(self):
         pass
