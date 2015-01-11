@@ -56,10 +56,59 @@ class ViewTests(TestCase):
         self.assertEqual(data[2]['task'], self.test_data.todo_list[2])
 
     def test_get_one_todo(self):
-        pass
+        """
+        GET /todo/<id>
+        """
+        end_point = reverse('api_v1:get_todo', kwargs={'id': '2'})
+        response = self.client.get(end_point)
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content)
+
+        self.assertEqual(data['task'], self.test_data.todo_list[1])
+        self.assertEqual(data['complete'], False)
+
+        # test with bad id
+        end_point = reverse('api_v1:get_todo', kwargs={'id': '99'})
+        response = self.client.get(end_point)
+        self.assertEqual(response.status_code, 404)
 
     def test_update_todo(self):
-        pass
+        """
+        PUT /todo/<id>
+        """
+        end_point = reverse('api_v1:get_todo', kwargs={'id': '1'})
+        put_data = {
+            "task": "test changes",
+            "complete": "True",
+        }
+        response = self.client.put(
+            end_point,
+            put_data
+        )
+        updated_object = Todo.objects.get(id=1)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(updated_object.task, put_data['task'])
+        self.assertEqual(updated_object.complete, bool(put_data['complete']))
+
+        # put request with bad data
+        bad_put_data = {
+            "task": "test changes",
+        }
+        response = self.client.put(
+            end_point,
+            bad_put_data
+        )
+
+        self.assertEqual(response.status_code, 400)
 
     def test_delete_todo(self):
-        pass
+        """
+        DELETE /todo/<id>
+        """
+        end_point = reverse('api_v1:get_todo', kwargs={'id': '1'})
+
+        response = self.client.delete(end_point)
+        all_todos = Todo.objects.all()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(all_todos), 2)
