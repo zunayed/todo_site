@@ -8,10 +8,6 @@ from django.views.decorators.csrf import csrf_exempt
 from models import Todo
 
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the api index.")
-
-
 @csrf_exempt
 @require_http_methods(['GET', 'POST'])
 def todos(request):
