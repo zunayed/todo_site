@@ -1,0 +1,49 @@
+body {
+  padding-top: 15px;
+  background-color: #fcfcfc;
+}
+
+.title {
+  text-align: center;
+}
+
+.done {
+  text-decoration: line-through;
+}
+
+.dotted {
+  border-top: dotted 2px;
+  color: #d3d3d3;
+}
+
+input.form-control {
+  height: 33px;
+}
+
+
+ul.todo-list {
+  list-style-type: none;
+  padding-top: 10px;
+  padding-left: 5px;
+}
+
+li.todo-item {
+  padding-top: 10px;
+  padding-bottom:10px;
+}
+
+/*input.input-control {
+  background: blue;
+}
+*/
+
+
+input[type="checkbox"] + label span {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    background:url(check_radio_sheet.png) left top no-repeat;
+    cursor:pointer;
+}
