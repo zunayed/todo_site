@@ -79,29 +79,27 @@ class ViewTests(TestCase):
         end_point = reverse('api_v1:todos')
         post_data = {
             'task': 'new test post',
-            'complete': 'True',
         }
-        # import ipdb; ipdb.set_trace()
 
         response = self.client.post(
             end_point,
-            post_data
+            json.dumps(post_data),
+            content_type='application/json'
         )
+        self.assertEqual(response.status_code, 201)
 
         new_post = Todo.objects.get(task='new test post')
-
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(new_post.task, post_data['task'])
-        self.assertEqual(new_post.complete, bool(post_data['complete']))
 
         # test with bad post data
         bad_post_data = {
-            'task': 'new test post',
+            'asdas': 'new test post',
         }
 
         response = self.client.post(
             end_point,
-            bad_post_data
+            json.dumps(bad_post_data),
+            content_type='application/json'
         )
 
         self.assertEqual(response.status_code, 400)
@@ -113,7 +111,7 @@ class ViewTests(TestCase):
         end_point = reverse('api_v1:get_todo', kwargs={'id': '1'})
         put_data = {
             'task': 'test changes',
-            'complete': 'True',
+            'complete': False,
         }
         response = self.client.put(
             end_point,
