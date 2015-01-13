@@ -1,5 +1,5 @@
 /*global $:false */
-/*global React, Router*/
+/*global React*/
 
 (function () {
 'use strict';
