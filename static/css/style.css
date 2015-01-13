@@ -5,6 +5,7 @@ body {
 
 .title {
   text-align: center;
+  font-weight:bold;
 }
 
 .done {
@@ -28,22 +29,34 @@ ul.todo-list {
 }
 
 li.todo-item {
-  padding-top: 10px;
-  padding-bottom:10px;
+  padding-top: 5px;
+  padding-bottom:5px;
 }
 
-/*input.input-control {
-  background: blue;
+a.todo-text-control {
+  padding-left: 5px;
+  text-decoration: none;
+  display: inline;
 }
-*/
 
+.delete-control {
+    display: none;
+}
 
-input[type="checkbox"] + label span {
-    display:inline-block;
-    width:19px;
-    height:19px;
-    margin:-1px 4px 0 0;
-    vertical-align:middle;
-    background:url(check_radio_sheet.png) left top no-repeat;
-    cursor:pointer;
+.todo-row-control:hover .delete-control{
+  display: inline;
+  
+}
+    
+a:hover + .todo-item {
+    display: inline;
+}
+
+.todo-control {
+  background: white;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #B0B0B0;
+  border-radius: 5px;
+  padding-bottom: 10px;
 }

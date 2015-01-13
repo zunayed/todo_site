@@ -11,8 +11,10 @@ var TodoList = React.createClass({
     return  <div className={done}>
               <li className='todo-item' id={item.id}>
                 <input type="checkbox" checked={item.complete} onChange={this.props.onUpdate.bind(null, item)} />
-                {item.task}
-                [<a href="#" onClick={this.props.onDelete.bind(null, item)}>x</a>]
+                  <span className='todo-row-control'>
+                    <a className='todo-text-control'>{item.task}</a>
+                    <a className="delete-control" href="#" onClick={this.props.onDelete.bind(null, item)}>[x]</a>
+                  </span>
               </li>
             </div>;
 
@@ -34,10 +36,8 @@ var Footer = React.createClass({
   },
   render : function () {
     return  <div className='footer-control'>
-              <a>{this.calculateTodosLeft(this.props.items)} items left </a> 
-              <div>
-                <a href="#" onClick={this.props.onMarkAll.bind(null, this.props.items)}>Mark All done</a>
-              </div>
+              <a className='pull-left'>{this.calculateTodosLeft(this.props.items)} items left </a> 
+              <a href="#" className='pull-right' onClick={this.props.onMarkAll.bind(null, this.props.items)}>Mark All done</a>
             </div>;
   }
 });
@@ -61,12 +61,13 @@ var TodoApp = React.createClass({
   },
 
   onMarkAll: function (e) {
+    //TODO - setting all 
+
     this.state.items.map(function (item){
       item.complete = true;
       return item;
     });
     this.setState({items: this.state.items});
-
   },
 
   onUpdate: function (item, e) {
@@ -86,7 +87,6 @@ var TodoApp = React.createClass({
       },
       data: JSON.stringify(this.state.items[position]),
       dataType: 'json',
-      async: false
     });
   },
 
@@ -141,7 +141,7 @@ var TodoApp = React.createClass({
   render: function () {
     return (
       <div>
-        <div className='col-md-4 col-md-offset-4'>
+        <div className=' todo-control col-md-4 col-md-offset-4'>
           <h3 className='title'>Todos</h3>
           <hr className='dotted' />
           <form onSubmit={this.onSubmit}>
